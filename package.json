@@ -14,7 +14,11 @@
     "url": "https://tailadmin.com"
   },
   "dependencies": {
+    "@emotion/react": "^11.14.0",
+    "@emotion/styled": "^11.14.1",
+    "@mui/material": "^7.3.4",
     "apexcharts": "^3.41.0",
+    "axios": "^1.13.1",
     "headlessui": "^0.0.0",
     "jsvectormap": "^1.5.3",
     "lucide-react": "^0.477.0",
