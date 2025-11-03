@@ -1,14 +1,41 @@
-import React from 'react';
-import ReactDOM from 'react-dom/client';
-import { BrowserRouter as Router } from 'react-router-dom';
-import App from './App';
+import { StrictMode } from 'react';
+import { createRoot } from 'react-dom/client';
+import { BrowserRouter } from 'react-router-dom';
+import { ThemeProvider, createTheme } from '@mui/material/styles';
+import CssBaseline from '@mui/material/CssBaseline';
+import { AuthProvider } from './auth/AuthContext';
+import { UiLibraryProvider } from './context/UiLibraryContext';
+import { NotificationProvider } from './utils/notifications';
+import { ConfirmProvider } from './utils/confirmDialog';
+import App from './App.tsx';
 import './index.css';
-import './satoshi.css';
 
-ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
-  <React.StrictMode>
-    <Router>
-      <App />
-    </Router>
-  </React.StrictMode>
+const theme = createTheme({
+  palette: {
+    primary: {
+      main: '#1976d2',
+    },
+    secondary: {
+      main: '#dc004e',
+    },
+  },
+});
+
+createRoot(document.getElementById('root')!).render(
+  <StrictMode>
+    <BrowserRouter>
+      <ThemeProvider theme={theme}>
+        <CssBaseline />
+        <UiLibraryProvider>
+          <NotificationProvider>
+            <ConfirmProvider>
+              <AuthProvider>
+                <App />
+              </AuthProvider>
+            </ConfirmProvider>
+          </NotificationProvider>
+        </UiLibraryProvider>
+      </ThemeProvider>
+    </BrowserRouter>
+  </StrictMode>
 );
