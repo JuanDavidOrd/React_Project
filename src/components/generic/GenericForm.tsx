@@ -231,9 +231,9 @@ function GenericForm<T extends Record<string, any>>({
             <div className="card-body">
               <form onSubmit={(e) => { e.preventDefault(); onSubmit(); }}>
                 {fields.map(renderField)}
+                {renderButtons()}
               </form>
             </div>
-            {renderButtons()}
           </div>
         </div>
       </Layout>

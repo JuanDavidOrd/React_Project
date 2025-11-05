@@ -64,7 +64,7 @@ function GenericList<T extends { id: string | number }>({
     // Tailwind
     return (
       <button
-        className="px-4 py-2 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 transition-colors flex items-center gap-2"
+        className="px-4 py-2 bg-gray-900 text-black rounded-lg font-medium hover:bg-gray-800 transition-colors flex items-center gap-2"
         onClick={() => navigate(createPath)}
       >
         <Plus size={16} />
