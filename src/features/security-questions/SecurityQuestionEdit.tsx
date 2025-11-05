@@ -49,7 +49,7 @@ const SecurityQuestionEdit: React.FC = () => {
       title={isNew ? 'Crear Pregunta' : 'Editar Pregunta'}
       subtitle="Preguntas de seguridad"
       fields={[
-        { name: 'name', label: 'Nombre', type: 'text' as const, required: true },
+        { name: 'name', label: 'Pregunta', type: 'text' as const, required: true },
         { name: 'description', label: 'Descripción', type: 'text' as const, required: false },
       ]}
       value={value}

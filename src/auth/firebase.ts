@@ -25,3 +25,7 @@ microsoftProvider.setCustomParameters({
 microsoftProvider.addScope("openid");
 microsoftProvider.addScope("email");
 microsoftProvider.addScope("profile");
+
+
+console.log("API KEY:", import.meta.env.VITE_FIREBASE_API_KEY);
+console.log("AUTH DOMAIN:", import.meta.env.VITE_FIREBASE_AUTH_DOMAIN);

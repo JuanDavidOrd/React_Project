@@ -52,17 +52,39 @@ const ProfileEdit: React.FC = () => {
       return;
     }
     
-    try {
-      const payload = { phone: value.phone.trim(), photo: value.photo?.trim() || null };
-      if (isNew) {
-        await apiClient.post(`/api/profiles/user/${value.user_id}`, payload);
-        showSuccess('Perfil creado correctamente');
-      } else {
-        await apiClient.put(`/api/profiles/${id}`, payload);
-        showSuccess('Perfil actualizado correctamente');
-      }
-      navigate('/profiles');
-    } catch (err: any) {
+  try {
+    const form = new FormData();
+    form.append("phone", value.phone.trim());
+
+    // si colocan una URL o texto
+    if (value.photo) {
+      form.append("photo", value.photo.trim());
+    }
+
+    // MODO CREAR
+    if (isNew) {
+      const { data } = await apiClient.post(
+        `/api/profiles/user/${value.user_id}`,
+        form,
+        { headers: { "Content-Type": "multipart/form-data" } }
+      );
+
+      showSuccess("Perfil creado correctamente");
+
+      const newId = data?.id ?? data?.profile?.id;
+      navigate(`/profiles/${newId}`);
+    }
+
+    // MODO EDITAR
+    else {
+      await apiClient.put(`/api/profiles/${id}`, form, {
+        headers: { "Content-Type": "multipart/form-data" }
+      });
+      showSuccess("Perfil actualizado correctamente");
+      navigate(`/profiles/${id}`);
+    }
+  } catch (err: any) {
+
       let errorMsg = 'Error al guardar';
       
       if (err.response?.status === 404) {

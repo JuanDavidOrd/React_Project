@@ -67,13 +67,19 @@ const SessionEdit: React.FC = () => {
         return;
       }
       
-      const expirationDate = new Date(value.expiration + 'T12:00:00.000Z');
+      // Para converir de '2025-11-06' a '2025-11-06 12:00:00'
+      const formatBackendDate = (dateString: string): string => {
+        return `${dateString} 12:00:00`;
+      };
+
+      const expirationFormatted = formatBackendDate(value.expiration);
       
       const payload: any = {
         token: value.token.trim(),
         state: value.state,
-        expiration: expirationDate.toISOString(),
+        expiration: expirationFormatted,
       };
+
       
       if (value.FACode && value.FACode.trim() !== '') {
         payload.FACode = value.FACode.trim();
