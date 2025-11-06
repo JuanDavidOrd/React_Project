@@ -188,7 +188,7 @@ function GenericForm<T extends Record<string, any>>({
         </button>
         <button
           type="submit"
-          className="px-6 py-2 bg-gray-900 text-white rounded-lg font-medium hover:bg-gray-800 transition-colors"
+          className="px-6 py-2 bg-black text-white rounded-lg font-medium hover:bg-gray-900 transition-colors shadow-md border border-gray-800"
         >
           {submitLabel || (isNew ? 'Crear' : 'Guardar Cambios')}
         </button>
