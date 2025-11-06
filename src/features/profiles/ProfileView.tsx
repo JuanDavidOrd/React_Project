@@ -1,15 +1,15 @@
-import React, { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
-import apiClient from '../../lib/api';
-import GenericDetailView from '../../components/generic/GenericDetailView';
-import { formatDate } from '../../utils/dateFormatter';
-import { useNotifications } from '../../utils/notifications';
+import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
+import apiClient from "../../lib/api";
+import GenericDetailView from "../../components/generic/GenericDetailView";
+import { formatDate } from "../../utils/dateFormatter";
+import { useNotifications } from "../../utils/notifications";
 
 type ProfileData = {
   id: number;
   user_id: number;
   phone?: string;
-  photo?: string;
+  photo?: string;        // en BD: "profiles/<uuid>_archivo.png"
   created_at?: string;
   updated_at?: string;
 };
@@ -20,6 +20,13 @@ const ProfileView: React.FC = () => {
   const [user, setUser] = useState<{ name: string; email: string } | null>(null);
   const [loading, setLoading] = useState(true);
   const { showError } = useNotifications();
+
+  const buildImageUrl = (photoPath?: string): string | undefined => {
+    if (!photoPath) return undefined;
+    const filenameOnly = photoPath.split("/").pop() || "";
+    const base = import.meta.env.VITE_API_BASE_URL || "http://127.0.0.1:5000";
+    return filenameOnly ? `${base}/api/profiles/${filenameOnly}` : undefined;
+  };
 
   useEffect(() => {
     (async () => {
@@ -32,7 +39,7 @@ const ProfileView: React.FC = () => {
           setUser({ name: u.name, email: u.email });
         }
       } catch (err: any) {
-        showError(err.response?.data?.error || 'Error al cargar el perfil');
+        showError(err?.response?.data?.error || "Error al cargar el perfil");
       } finally {
         setLoading(false);
       }
@@ -53,14 +60,14 @@ const ProfileView: React.FC = () => {
     <GenericDetailView
       title="Perfil de Usuario"
       subtitle={user.name}
-      imageUrl={profile.photo || undefined}
+      imageUrl={buildImageUrl(profile.photo)}
       imageFallback={user.name}
       fields={[
-        { label: 'Nombre', value: user.name },
-        { label: 'Email', value: user.email },
-        { label: 'Teléfono', value: profile.phone || '-' },
-        { label: 'Creado', value: formatDate(profile.created_at) },
-        { label: 'Actualizado', value: formatDate(profile.updated_at) }
+        { label: "Nombre", value: user.name },
+        { label: "Email", value: user.email },
+        { label: "Teléfono", value: profile.phone || "-" },
+        { label: "Creado", value: formatDate(profile.created_at) },
+        { label: "Actualizado", value: formatDate(profile.updated_at) },
       ]}
       editPath={`/profile/update/${id}`}
       backPath="/profiles"
@@ -70,5 +77,3 @@ const ProfileView: React.FC = () => {
 };
 
 export default ProfileView;
-
-
